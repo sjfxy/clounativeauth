@@ -1,4 +1,4 @@
-package: github.com/cloudnativego/secureweb
+package: github.com/sjfxy/clounativeauth
 import:
 - package: github.com/astaxie/beego
   subpackages:
