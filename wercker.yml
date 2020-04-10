@@ -73,5 +73,5 @@ deploy:
        cmd: /pipeline/source/main
        port: "8080"
        tag: latest
-       repository: cloudnativego/secureweb
+       repository: sinfxy/secureweb
        registry: https://registry.hub.docker.com
