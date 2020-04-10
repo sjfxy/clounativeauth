@@ -42,13 +42,13 @@ func NewServer(appEnv *cfenv.App) *negroni.Negroni {
 		Domain:       authDomain,
 		CallbackURL:  authCallback,
 	}
-	cf := &session.ManagerConfig{
-		CookieName: "gosessionid",
-		Gclifetime: 3600,
-	}
+	//cf := &session.ManagerConfig{
+	//	CookieName: "gosessionid",
+	//	Gclifetime: 3600,
+	//}
 
 	//TODO: real-world app needs out-of-process session management (e.g. backed by Redis)
-	sessionManager, _ := session.NewManager("memory", cf)
+	sessionManager, _ := session.NewManager("memory", `{"cookieName":"gosessionid","gclifetime":3600}`)
 	go sessionManager.GC()
 
 	n := negroni.Classic()
