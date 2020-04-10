@@ -1,0 +1,77 @@
+box: golang
+
+dev:
+  steps:
+    - setup-go-workspace:
+        package-dir: github.com/cloudnativego/secureweb
+
+    - script:
+        name: go get
+        code: |
+          cd $WERCKER_SOURCE_DIR
+          go version
+          go get -u github.com/Masterminds/glide
+          go get -u github.com/cloudnativego/cf-tools/vcapinate
+          export PATH=$WERCKER_SOURCE_DIR/bin:$PATH
+          glide install
+
+    - script:
+        name: set environment
+        code: |
+          export VCAP_SERVICES=`vcapinate -path=./local_config/vcap.yml`
+          export VCAP_APPLICATION={}
+          echo $VCAP_SERVICES
+
+    - internal/watch:
+        code: PORT=80 go run main.go
+        reload: false
+
+build:
+  steps:
+    - setup-go-workspace
+
+    - script:
+        name: go get
+        code: |
+          cd $WERCKER_SOURCE_DIR
+          go version
+          go get -u github.com/Masterminds/glide
+          go get -u github.com/cloudnativego/cf-tools/vcapinate
+          export PATH=$WERCKER_SOURCE_DIR/bin:$PATH
+          glide install
+
+    # Build the project
+    - script:
+        name: go build
+        code: |
+          go build
+
+    # Test the project
+    - script:
+        name: go test
+        code: |
+          go test -v ./server
+
+    - script:
+        name: integration tests
+        code: |
+          export VCAP_SERVICES=`vcapinate -path=./local_config/vcap.yml`
+          export VCAP_APPLICATION={}
+          go test ./integrations/_test -v -race
+
+    - script:
+        name: copy files to wercker output
+        code: |
+          cp -R ./ ${WERCKER_OUTPUT_DIR}
+
+
+deploy:
+ steps:
+   - internal/docker-push:
+       username: $USERNAME
+       password: $PASSWORD
+       cmd: /pipeline/source/main
+       port: "8080"
+       tag: latest
+       repository: cloudnativego/secureweb
+       registry: https://registry.hub.docker.com
