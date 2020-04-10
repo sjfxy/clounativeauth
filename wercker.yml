@@ -3,7 +3,7 @@ box: golang
 dev:
   steps:
     - setup-go-workspace:
-        package-dir: github.com/cloudnativego/secureweb
+        package-dir: github.com/sjfxy/clounativeauth
 
     - script:
         name: go get
