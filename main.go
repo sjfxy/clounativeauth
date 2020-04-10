@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/cloudfoundry-community/go-cfenv"
-	"github.com/cloudnativego/secureweb/server"
+	"github.com/sjfxy/clounativeauth/server"
 )
 
 func main() {
