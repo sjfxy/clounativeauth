@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/cloudfoundry-community/go-cfenv"
-	. "github.com/cloudnativego/secureweb/server"
 	"github.com/codegangsta/negroni"
+	. "github.com/sjfxy/clounativeauth/server"
 )
 
 var (
