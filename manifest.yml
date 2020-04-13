@@ -1,9 +1,9 @@
 applications:
- - memory: 200MB
+ - memory: 100MB
    instances: 1
-   name:  wercker-auth_v2
+   name:  wercker-auth_v3
    disk_quota: 1024M
-   command: clounativeauth
+#   command: clounativeauth
 
 
 #- path: .
