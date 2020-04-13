@@ -43,3 +43,4 @@ func main() {
 //Rabimq
 //处理器事件处理器
 //分发管理处理
+//buildpack: https://github.com/cloudfoundry/go-buildpack.git

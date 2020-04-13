@@ -1,9 +1,17 @@
 applications:
-- path: .
-  memory: 200MB
-  instances: 1
-  name:  wercker-auth
-  disk_quota: 1024M
-  command: clounativeauth
-  buildpack: https://github.com/cloudfoundry/go-buildpack.git
+ - memory: 200MB
+   instances: 1
+   name:  wercker-auth_v2
+   disk_quota: 1024M
+   command: clounativeauth
+
+
+#- path: .
+#  memory: 200MB
+#  instances: 1
+#  name:  wercker-auth
+#  disk_quota: 1024M
+#  command: clounativeauth
+   #buildpack: https://github.com/cloudfoundry/go-buildpack.git
+
 
