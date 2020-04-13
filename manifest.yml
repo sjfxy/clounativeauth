@@ -1,9 +1,9 @@
 applications:
 - path: .
-  memory: 512MB
+  memory: 200MB
   instances: 1
-  name:  sin-web-auth
+  name:  wercker-auth
   disk_quota: 1024M
-  command: sin-web-auth
+  command: clounativeauth
   buildpack: https://github.com/cloudfoundry/go-buildpack.git
 
