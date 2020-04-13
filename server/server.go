@@ -17,9 +17,17 @@ type authConfig struct {
 	CallbackURL  string
 }
 
-//NewServer configures and returns a Negroni server
-func NewServer(appEnv *cfenv.App) *negroni.Negroni {
-	// HACK handle these failures for realzies
+//声明接口模式
+type AuthConfig interface {
+	GetConfig(app *cfenv.App) *authConfig
+}
+
+//包含进行封装
+type LocalAuthconfig struct {
+	authConfig
+}
+
+func (local *LocalAuthconfig) GetConfig(appEnv *cfenv.App) *authConfig {
 	authClientID, _ := cftools.GetVCAPServiceProperty("authzero", "id", appEnv)
 	authSecret, _ := cftools.GetVCAPServiceProperty("authzero", "secret", appEnv)
 	authDomain, _ := cftools.GetVCAPServiceProperty("authzero", "domain", appEnv)
@@ -42,16 +50,39 @@ func NewServer(appEnv *cfenv.App) *negroni.Negroni {
 		//	log.Println(authCallback)
 		//	authCallback = "wercker-auth/callback"
 	}
-	config := &authConfig{
-		ClientID:     authClientID,
-		ClientSecret: authSecret,
-		Domain:       authDomain,
-		CallbackURL:  authCallback,
-	}
+	local.ClientID = authClientID
+	local.ClientSecret = authSecret
+	local.Domain = authDomain
+	local.CallbackURL = authCallback
+	return &local.authConfig
+}
+func New() *LocalAuthconfig {
+	return &LocalAuthconfig{}
+}
+
+//返回对应的服务类型 返回对应的 authconfig
+func NewServerFromCf(appEnv *cfenv.App, auconfig AuthConfig) *authConfig {
+	return auconfig.GetConfig(appEnv)
+}
+
+//NewServer configures and returns a Negroni server
+func NewServer(appEnv *cfenv.App) *negroni.Negroni {
+	// HACK handle these failures for realzies
+
+	config := NewServerFromCf(appEnv, New())
+	//使用接口的方式进行构建 环境都是可以测试 可以更改的方式
+	//接口定义
+	//配置参数定义
+	//约束定义
+	//包含对象进行代理模式 装饰器模式
+	//采用初始化的操作进行操作
+
 	//cf := &session.ManagerConfig{
 	//	CookieName: "gosessionid",
 	//	Gclifetime: 3600,
 	//}
+
+	// config := NewServerFromCf(appEnv)
 
 	//TODO: real-world app needs out-of-process session management (e.g. backed by Redis)
 	sessionManager, _ := session.NewManager("memory", `{"cookieName":"gosessionid","gclifetime":3600}`)
