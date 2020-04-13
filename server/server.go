@@ -17,6 +17,7 @@ type authConfig struct {
 	CallbackURL  string
 }
 
+//
 //声明接口模式
 type AuthConfig interface {
 	GetConfig(app *cfenv.App) *authConfig
