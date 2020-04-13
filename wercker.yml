@@ -81,5 +81,5 @@ deploy:
        password: $WSPASSWORD
        org: $ORG
        space: $SPACE
-       appname: wercker-auth
+       appname: wercker-auth_v2
        docker_image: sinfxy/secureweb
