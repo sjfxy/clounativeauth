@@ -78,7 +78,7 @@ deploy:
    - cng/cf-deploy:
        api: $API
        user: $USER
-       password: $PASSWORD
+       password: $WSPASSWORD
        org: $ORG
        space: $SPACE
        appname: wercker-auth

@@ -35,7 +35,7 @@ func NewServer(appEnv *cfenv.App) *negroni.Negroni {
 	}
 	if len(authCallback) == 0 {
 		//这里设置一下我们的回调的数据格式
-		authCallback = "122.51.193.134:3006" //设置回调的是 3006作为代理端口进行提供回调处理
+		authCallback = "wercker-auth.cfapps.io/callback" //设置回调的是 3006作为代理端口进行提供回调处理
 		//	authCallback = "wercker-auth/callback"
 	}
 	config := &authConfig{
